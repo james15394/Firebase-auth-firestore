@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import { Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { db } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
 import Firebase from "../../firebase";
 import Post from "../Post/Post";
+import Form from "../Form/Form";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,8 +31,20 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     posts: {
+      margin: 20,
       "& .post": {
         maxWidth: 400,
+
+        "& .MuiPaper-outlined": {
+          padding: theme.spacing(1),
+          minHeight: 200,
+          display: "grid",
+          placeItems: "center",
+          background: "rgb(226 206 206 / 54%)",
+          "& hr": {
+            width: "100%",
+          },
+        },
       },
       "& .MuiGrid-spacing-xs-3": {
         placeContent: "center",
@@ -42,20 +55,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Home = () => {
   const user = useUser();
-  console.log(user);
   const classes = useStyles();
   const [value, setValue] = React.useState<string | null>(null);
   const [title, setTitle] = React.useState<string | null>(null);
   const [posts, setPosts] = React.useState<
     Firebase.firestore.DocumentData[] | null
   >(null);
-  const accept = value && title;
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
+
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -64,7 +70,6 @@ const Home = () => {
     };
     const post = target.post.value;
     const title = target.title.value;
-    console.log(post);
     const postItem = {
       name: user?.uid,
       title,
@@ -95,44 +100,33 @@ const Home = () => {
       });
     return unsub;
   }, []);
-
+  if (!user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/login",
+        }}
+      />
+    );
+  }
   return (
     <div className={classes.container}>
       <h1>Post</h1>
       <p>{user?.email}</p>
-      <form className={classes.root} onSubmit={handleSubmit}>
-        <div>
-          <TextField
-            label="Title"
-            variant="outlined"
-            name="title"
-            value={title}
-            onChange={handleTitle}
-          />
-          <TextField
-            label="Your post"
-            multiline
-            rows={4}
-            variant="outlined"
-            name="post"
-            value={value}
-            onChange={handleChange}
-          />
-          <Button
-            type="submit"
-            color="primary"
-            fullWidth
-            variant="contained"
-            disabled={!Boolean(accept)}
-          >
-            Post
-          </Button>
-        </div>
-      </form>
+
+      <Form
+        handleSubmit={handleSubmit}
+        type="newPost"
+        className={classes.root}
+        value={value}
+        title={title}
+        setValue={setValue}
+        setTitle={setTitle}
+      />
       <div className={classes.posts}>
         <Grid container spacing={3}>
           {posts?.map((post) => (
-            <Post post={post} />
+            <Post post={post} key={post.id} />
           ))}
         </Grid>
       </div>

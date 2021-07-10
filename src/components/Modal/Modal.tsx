@@ -3,9 +3,10 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import { Button, TextField, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import Firebase from "../../firebase";
 import { db } from "../../firebase";
+import Form from "../Form/Form";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,9 +22,17 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2, 4, 3),
     },
     form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 10,
+      display: "grid",
+      placeItems: "center",
+      "& .MuiTextField-root": {
+        margin: theme.spacing(1),
+        width: "25ch",
+      },
+      "& > div": {
+        maxWidth: 700,
+        display: "flex",
+        flexDirection: "column",
+      },
     },
   })
 );
@@ -44,17 +53,11 @@ export default function EditModal({
   const classes = useStyles();
   const [value, setValue] = React.useState<string | null>(content);
   const [title, setTitle] = React.useState<string | null>(oldTitle);
-  const accept = value && title;
 
   const handleClose = () => {
     setOpen(false);
   };
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
-  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
+
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -93,35 +96,16 @@ export default function EditModal({
         <Fade in={open}>
           <div className={classes.paper}>
             <Typography variant="h5">Edit Post</Typography>
-            <form onSubmit={handleSubmit}>
-              <div className={classes.form}>
-                <TextField
-                  label="Title"
-                  variant="outlined"
-                  name="title"
-                  value={title}
-                  onChange={handleTitle}
-                />
-                <TextField
-                  label="Your post"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  name="post"
-                  value={value}
-                  onChange={handleChange}
-                />
-                <Button
-                  type="submit"
-                  color="primary"
-                  fullWidth
-                  variant="contained"
-                  disabled={!Boolean(accept)}
-                >
-                  Edit
-                </Button>
-              </div>
-            </form>
+
+            <Form
+              className={classes.form}
+              handleSubmit={handleSubmit}
+              type="edit"
+              value={value}
+              title={title}
+              setValue={setValue}
+              setTitle={setTitle}
+            />
           </div>
         </Fade>
       </Modal>

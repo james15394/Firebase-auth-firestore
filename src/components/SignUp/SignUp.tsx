@@ -107,7 +107,6 @@ export default function Login() {
             render={({ field }) => (
               <TextField
                 {...field}
-                autoFocus
                 fullWidth
                 variant="outlined"
                 margin="normal"
@@ -135,7 +134,7 @@ export default function Login() {
               <Link to="#">Forgot password?</Link>
             </Grid>
             <Grid item>
-              <Link to="/login">{"Already have an accout? Sign in"}</Link>
+              <Link to="/signup">{"Not have an accout? Sign in"}</Link>
             </Grid>
           </Grid>
         </form>

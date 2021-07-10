@@ -107,7 +107,6 @@ export default function SignUp() {
             render={({ field }) => (
               <TextField
                 {...field}
-                autoFocus
                 fullWidth
                 variant="outlined"
                 margin="normal"
