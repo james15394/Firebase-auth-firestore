@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /posts/{postId} {
+        allow read: if true;
+
+      allow create: if isValidPost(request.resource.data) &&
+        isOwner(request.resource.data) &&
+        isSignedIn();
+
+      allow update: if isValidPost(request.resource.data) &&
+        isOwner(request.resource.data) &&
+        isOwner(resource.data) &&
+        isSignedIn();
+
+      allow delete: if isOwner(resource.data) &&
+        isSignedIn();
+
+      // FUNCTIONS
+      function isSignedIn() {
+        return request.auth != null;
+      }
+  
+      function isOwner(post) {
+        return request.auth.uid == post.name;
+      }
+  
+      function isValidPost(post) {
+        return (
+          // post.author
+          post.author is string &&
+          post.author != '' &&
+          // post.createdAt
+          post.createdAt is timestamp &&
+          post.createdAt != '' &&
+          // post.id
+          post.id is string &&
+          post.id != '' &&
+          // post.lastUpdated
+          post.lastUpdated is timestamp &&
+          post.lastUpdated != '' &&
+          // post.name
+          post.name is string &&
+          post.name != '' &&
+          // post.post
+          post.post is string &&
+          post.post != '' &&
+          // post.title
+          post.title is string &&
+          post.title != '' 
+        );
+      }
+    }
+  }
+}
