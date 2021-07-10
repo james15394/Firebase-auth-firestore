@@ -41,15 +41,7 @@ const Post = ({ post }: { post: Firebase.firestore.DocumentData }) => {
             <Button variant="contained" color="primary" onClick={handleOpen}>
               Edit
             </Button>
-            {open && (
-              <EditModal
-                open={open}
-                setOpen={setOpen}
-                postId={post?.id}
-                oldTitle={post?.title}
-                content={post?.post}
-              />
-            )}
+
             <Button
               variant="contained"
               color="secondary"
@@ -60,6 +52,15 @@ const Post = ({ post }: { post: Firebase.firestore.DocumentData }) => {
           </div>
         )}
       </Paper>
+      {open && (
+        <EditModal
+          open={open}
+          setOpen={setOpen}
+          postId={post?.id}
+          oldTitle={post?.title}
+          content={post?.post}
+        />
+      )}
     </Grid>
   );
 };

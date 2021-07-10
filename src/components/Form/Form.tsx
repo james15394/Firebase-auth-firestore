@@ -1,5 +1,27 @@
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, withStyles } from "@material-ui/core";
 import React from "react";
+
+const CssTextField = withStyles({
+  root: {
+    "& .MuiInputLabel-outlined": { color: "#fff" },
+    "& .MuiOutlinedInput-input": { color: "#fff" },
+    "& label.Mui-focused": {
+      color: "#fff",
+    },
+
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#fff",
+      },
+      "&:hover fieldset": {
+        borderColor: "#fff",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#fff",
+      },
+    },
+  },
+})(TextField);
 
 const Form = ({
   handleSubmit,
@@ -28,17 +50,18 @@ const Form = ({
   return (
     <form onSubmit={handleSubmit} className={className}>
       <div>
-        <TextField
+        <CssTextField
           label="Title"
           variant="outlined"
           name="title"
           value={title}
           onChange={handleTitle}
+          color="secondary"
         />
-        <TextField
+        <CssTextField
           label="Your post"
           multiline
-          rows={4}
+          rows={3}
           variant="outlined"
           name="post"
           value={value}

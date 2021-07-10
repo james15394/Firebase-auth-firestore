@@ -28,6 +28,24 @@ const useStyles = makeStyles((theme: Theme) =>
         maxWidth: 700,
         display: "flex",
         flexDirection: "column",
+        background: "#784b84",
+        padding: theme.spacing(1),
+        borderRadius: 10,
+        // "& .MuiInputBase-root": {
+        //   "&:hover": {
+        //     borderColor: "#fff",
+        //   },
+        // },
+        // "& .MuiInputLabel-outlined": {
+        //   color: "#fff",
+        // },
+        // "& .MuiOutlinedInput-notchedOutline": {
+        //   borderColor: "#fff",
+
+        //   "& .PrivateNotchedOutline-legendLabelled-9 > span": {
+        //     color: "#fff",
+        //   },
+        // },
       },
     },
     posts: {
@@ -43,6 +61,11 @@ const useStyles = makeStyles((theme: Theme) =>
           background: "rgb(226 206 206 / 54%)",
           "& hr": {
             width: "100%",
+          },
+          "& .btn": {
+            "& > button + button": {
+              marginLeft: 10,
+            },
           },
         },
       },
