@@ -63,20 +63,18 @@ export default function EditModal({
     };
     const post = target.post.value;
     const title = target.title.value;
-    console.log(post);
     const postItem = {
       title,
       post,
-
-      createdAt: Firebase.firestore.FieldValue.serverTimestamp(),
       lastUpdated: Firebase.firestore.FieldValue.serverTimestamp(),
     };
     db.collection("posts")
       .doc(postId)
-      .set(postItem)
+      .update(postItem)
       .catch((err) => console.log(err));
     setValue("");
     setTitle("");
+    setOpen(false);
   };
   return (
     <div>

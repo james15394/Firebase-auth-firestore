@@ -26,8 +26,8 @@ const Post = ({ post }: { post: Firebase.firestore.DocumentData }) => {
         <Typography variant="h6">{post?.author}</Typography>
         <Typography variant="h6">
           {new Date(
-            new Date(post?.createdAt?.seconds * 1000)
-          ).toLocaleDateString()}
+            new Date(post?.lastUpdated?.seconds * 1000)
+          )?.toLocaleDateString()}
         </Typography>
         <p>{post?.post}</p>
         <div className="btn">
