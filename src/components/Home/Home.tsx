@@ -2,14 +2,20 @@ import React, { useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import { db } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
 import Firebase from "../../firebase";
-import Paper from "@material-ui/core/Paper";
+import Post from "../Post/Post";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
     root: {
       display: "grid",
       placeItems: "center",
@@ -18,9 +24,17 @@ const useStyles = makeStyles((theme: Theme) =>
         width: "25ch",
       },
       "& > div": {
-        maxWidth: 500,
+        maxWidth: 700,
         display: "flex",
         flexDirection: "column",
+      },
+    },
+    posts: {
+      "& .post": {
+        maxWidth: 400,
+      },
+      "& .MuiGrid-spacing-xs-3": {
+        placeContent: "center",
       },
     },
   })
@@ -81,8 +95,9 @@ const Home = () => {
       });
     return unsub;
   }, []);
+
   return (
-    <div>
+    <div className={classes.container}>
       <h1>Post</h1>
       <p>{user?.email}</p>
       <form className={classes.root} onSubmit={handleSubmit}>
@@ -114,21 +129,12 @@ const Home = () => {
           </Button>
         </div>
       </form>
-      <div className="posts">
-        {posts?.map((post) => (
-          <Paper variant="outlined">
-            <Typography variant="h4" color="primary">
-              {post?.title}
-            </Typography>
-            <Typography variant="h6">{post?.author}</Typography>
-            <Typography variant="h6">
-              {new Date(
-                new Date(post?.createdAt?.seconds * 1000)
-              ).toLocaleDateString()}
-            </Typography>
-            <p>{post?.post}</p>
-          </Paper>
-        ))}
+      <div className={classes.posts}>
+        <Grid container spacing={3}>
+          {posts?.map((post) => (
+            <Post post={post} />
+          ))}
+        </Grid>
       </div>
     </div>
   );
