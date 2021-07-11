@@ -31,21 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
         background: "#784b84",
         padding: theme.spacing(1),
         borderRadius: 10,
-        // "& .MuiInputBase-root": {
-        //   "&:hover": {
-        //     borderColor: "#fff",
-        //   },
-        // },
-        // "& .MuiInputLabel-outlined": {
-        //   color: "#fff",
-        // },
-        // "& .MuiOutlinedInput-notchedOutline": {
-        //   borderColor: "#fff",
-
-        //   "& .PrivateNotchedOutline-legendLabelled-9 > span": {
-        //     color: "#fff",
-        //   },
-        // },
+    
       },
     },
     posts: {
