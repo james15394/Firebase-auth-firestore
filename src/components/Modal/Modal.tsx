@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
         maxWidth: 700,
         display: "flex",
         flexDirection: "column",
+        background: "#784b84",
+        padding: theme.spacing(1),
+        borderRadius: 10,
       },
     },
   })
